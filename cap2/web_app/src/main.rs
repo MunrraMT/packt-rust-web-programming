@@ -1,13 +1,19 @@
+use todo_app::{enums::TaskStatus, to_do_factory};
+
 mod todo_app;
 
-use todo_app::structs::{done::Done, pending::Pending};
-
 fn main() {
-    let done = Done::new("shopping");
-    println!("{}", done.super_struct.title);
-    println!("{}", done.super_struct.status.stringify());
+    let to_do_item = to_do_factory("washing", TaskStatus::DONE);
 
-    let pending = Pending::new("laundry");
-    println!("{}", pending.super_struct.title);
-    println!("{}", pending.super_struct.status);
+    match to_do_item {
+        todo_app::ItemTypes::Done(item) => {
+            println!("{}", item.super_struct.title);
+            println!("{}", item.super_struct.status.stringify());
+        }
+
+        todo_app::ItemTypes::Pending(item) => {
+            println!("{}", item.super_struct.title);
+            println!("{}", item.super_struct.status);
+        }
+    }
 }
