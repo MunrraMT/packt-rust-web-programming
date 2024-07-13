@@ -1,19 +1,23 @@
-use todo_app::{enums::TaskStatus, to_do_factory};
+use to_do::{
+    enums::TaskStatus,
+    to_do_factory,
+    traits::{delete::Delete, edit::Edit, get::Get},
+};
 
-mod todo_app;
+mod to_do;
 
 fn main() {
     let to_do_item = to_do_factory("washing", TaskStatus::DONE);
 
     match to_do_item {
-        todo_app::ItemTypes::Done(item) => {
-            println!("{}", item.super_struct.title);
-            println!("{}", item.super_struct.status.stringify());
+        to_do::ItemTypes::Done(item) => {
+            item.get(&item.super_struct.title);
+            item.delete(&item.super_struct.title);
         }
 
-        todo_app::ItemTypes::Pending(item) => {
-            println!("{}", item.super_struct.title);
-            println!("{}", item.super_struct.status);
+        to_do::ItemTypes::Pending(item) => {
+            item.get(&item.super_struct.title);
+            item.set_to_done(&item.super_struct.title);
         }
     }
 }

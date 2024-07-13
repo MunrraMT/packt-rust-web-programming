@@ -1,4 +1,7 @@
-use crate::todo_app::enums::TaskStatus;
+use crate::to_do::{
+    enums::TaskStatus,
+    traits::{create::Create, edit::Edit, get::Get},
+};
 
 use super::base::Base;
 
@@ -16,3 +19,7 @@ impl Pending {
         Self { super_struct: base }
     }
 }
+
+impl Get for Pending {}
+impl Edit for Pending {}
+impl Create for Pending {}
