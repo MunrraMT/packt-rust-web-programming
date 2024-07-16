@@ -1,20 +1,30 @@
 use std::env;
 
-use serde_json::json;
+use process::process_input;
+use to_do::{enums::TaskStatus, to_do_factory};
 
+mod process;
 mod state;
 mod to_do;
 
 fn main() {
     let args = env::args().collect::<Vec<String>>();
-    let status = &args[1];
+    let command = &args[1];
     let title = &args[2];
+    let state = state::read_file("./state.json");
+    let status: String;
 
-    let mut state = state::read_file("./state.json");
-    println!("Before operation: {:?}", state);
+    match &state.get(*&title) {
+        Some(result) => {
+            status = result.to_string().replace('\"', "");
+        }
 
-    state.insert(title.to_string(), json!(status));
-    println!("After operation: {:?}", state);
+        None => {
+            status = "pending".to_owned();
+        }
+    }
 
-    state::write_to_file("./state.json", &mut state);
+    let item = to_do_factory(title, TaskStatus::from_string(status.to_uppercase()));
+
+    process_input(item, command.to_string(), &state);
 }
