@@ -1,25 +1,27 @@
-use std::io;
+use std::{thread, time};
 
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+fn main() {
+    let now = time::Instant::now();
 
-#[actix_web::main]
-async fn main() -> io::Result<()> {
-    HttpServer::new(|| {
-        println!("http server factory is firing");
+    let thread_one = thread::spawn(|| do_something(1));
+    let thread_two = thread::spawn(|| do_something(2));
+    let thread_three = thread::spawn(|| do_something(3));
 
-        App::new()
-            .route("/", web::get().to(greet))
-            .route("/{name}", web::get().to(greet))
-            .route("/say/hello", web::get().to(|| async { "Hello Again!" }))
-    })
-    .workers(3)
-    .bind("0.0.0.0:8080")?
-    .run()
-    .await
+    let result_one = thread_one.join();
+    let result_two = thread_two.join();
+    let result_three = thread_three.join();
+
+    println!("time elapsed {:?}", now.elapsed());
+    println!(
+        "result {}",
+        result_one.unwrap() + result_two.unwrap() + result_three.unwrap()
+    );
 }
 
-async fn greet(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("world");
+fn do_something(number: i8) -> i8 {
+    println!("number {} is running", number);
+    let two_seconds = time::Duration::new(2, 0);
+    thread::sleep(two_seconds);
 
-    format!("hello {}!", name)
+    2
 }
