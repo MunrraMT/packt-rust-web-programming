@@ -1,8 +1,9 @@
 use actix_web::web::ServiceConfig;
-use auth::auth_view_factory;
 
 mod auth;
+mod to_do;
 
 pub fn views_factory(app: &mut ServiceConfig) {
-    auth_view_factory(app);
+    auth::auth_view_factory(app);
+    to_do::to_do_views_factory(app);
 }
