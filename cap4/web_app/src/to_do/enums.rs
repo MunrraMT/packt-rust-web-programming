@@ -15,7 +15,7 @@ impl TaskStatus {
         }
     }
 
-    pub fn from_string(input_string: String) -> Self {
+    pub fn from_string(input_string: &String) -> Self {
         match input_string.as_str() {
             "DONE" => TaskStatus::DONE,
             "PENDING" => TaskStatus::PENDING,

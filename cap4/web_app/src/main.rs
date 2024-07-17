@@ -2,6 +2,7 @@ use std::io;
 
 use actix_web::{App, HttpServer};
 
+mod json_serialization;
 mod process;
 mod state;
 mod to_do;
