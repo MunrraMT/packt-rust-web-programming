@@ -2,12 +2,15 @@ use actix_web::{web, HttpResponse};
 
 use crate::{
     json_serialization::{to_do_item::ToDoItem, to_do_items::ToDoItems},
+    jwt::JwToken,
     process::process_input,
     state::read_file,
     to_do::{enums::TaskStatus, to_do_factory},
 };
 
-pub async fn edit(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
+pub async fn edit(to_do_item: web::Json<ToDoItem>, token: JwToken) -> HttpResponse {
+    println!("here is the message in the token: {}", token.message);
+
     let state = read_file("./state.json");
     let status: TaskStatus;
 
