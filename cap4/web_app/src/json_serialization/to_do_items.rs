@@ -56,7 +56,7 @@ impl ToDoItems {
 impl Responder for ToDoItems {
     type Body = BoxBody;
 
-    fn respond_to(self, req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
+    fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
         let body = serde_json::to_string(&self).unwrap();
 
         HttpResponse::Ok()
