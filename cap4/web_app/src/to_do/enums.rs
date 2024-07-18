@@ -2,6 +2,7 @@ use std::fmt;
 
 use serde::Serialize;
 
+#[derive(Clone)]
 pub enum TaskStatus {
     DONE,
     PENDING,
