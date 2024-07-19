@@ -6,19 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do App</title>
     <meta name="description" content="This is a simple to do app">
+
+    <style>
+      /* {{BASE_CSS}} */
+      /* {{CSS}} */
+    </style>
   </head>
 
   <body>
-    <h1>Items</h1>
+    <div class="main-container">
+      <h1>Items</h1>
 
-    <h2>Done Items</h2>
-    <div id="done-items"></div>
+      <h2>Done Items</h2>
+      <div id="done-items"></div>
 
-    <h2>To Do Items</h2>
-    <div id="pending-items"></div>
+      <h2>To Do Items</h2>
+      <div id="pending-items"></div>
 
-    <input type="text" id="name" placeholder="create to do item">
-    <button id="create-button" value="Send">Create</button>
+      <div class="input-container">
+        <input type="text" id="name" placeholder="create to do item">
+        <button class="action-button" id="create-button" value="Send">
+          Create
+        </button>
+      </div>
+    </div>
 
     <script>
       // {{JAVASCRIPT}}

@@ -9,12 +9,16 @@ function render_items(items, process_type, element_id, process_function) {
     const btn = document.createElement('button');
 
     text.textContent = item.title;
+
     btn.id = id;
+    btn.className = 'action-button';
     btn.textContent = 'edit';
     btn.addEventListener('click', process_function);
 
+    div.className = 'item-container';
     div.appendChild(text);
     div.appendChild(btn);
+
     container.appendChild(div);
   });
 
