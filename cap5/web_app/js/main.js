@@ -45,8 +45,8 @@ function api_call(url, method = 'GET', body = '') {
       render_items(response.done_items, 'delete', 'done-items', delete_item);
 
       change_header_values(
-        response.pending_item_count,
-        response.done_item_count,
+        response.pending_items_count,
+        response.done_items_count,
       );
     });
 }

@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+actix-cors = "0.7.0"
 actix-service = "2.0.2"
 actix-web = "4.8.0"
 futures = "0.3.30"
