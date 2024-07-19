@@ -14,8 +14,13 @@ mod views;
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     HttpServer::new(|| {
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allow_any_method()
+            .allow_any_header();
+
         let app = App::new()
-            .wrap(Cors::permissive())
+            .wrap(cors)
             .wrap_fn(|req, srv| {
                 println!("{:?}", req);
                 let future = srv.call(req);
