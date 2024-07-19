@@ -1,5 +1,6 @@
 use std::io;
 
+use actix_cors::Cors;
 use actix_service::Service;
 use actix_web::{App, HttpServer};
 
@@ -14,6 +15,7 @@ mod views;
 async fn main() -> io::Result<()> {
     HttpServer::new(|| {
         let app = App::new()
+            .wrap(Cors::permissive())
             .wrap_fn(|req, srv| {
                 println!("{:?}", req);
                 let future = srv.call(req);
