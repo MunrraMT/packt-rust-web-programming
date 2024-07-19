@@ -25,3 +25,13 @@ function render_items(items, process_type, element_id, process_function) {
 
   document.querySelector(`#${element_id}`).appendChild(container);
 }
+
+function api_call(url, method) {
+  fetch(url, { method })
+    .then((response) => response.json())
+    .then((response) => {
+      render_items(response.pending_items, 'edit', 'pending-items', edit_item);
+
+      render_items(response.done_items, 'delete', 'done-items', delete_item);
+    });
+}
