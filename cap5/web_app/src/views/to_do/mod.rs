@@ -1,4 +1,4 @@
-use actix_web::web::{get, post, route, scope, ServiceConfig};
+use actix_web::web::{get, post, scope, ServiceConfig};
 
 mod create;
 mod delete;

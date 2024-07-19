@@ -16,6 +16,7 @@
 }
 
 .action-button {
+  height: 34px;
   display: inline-block;
   float: right;
   background: #f7786b;
