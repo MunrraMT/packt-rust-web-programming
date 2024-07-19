@@ -43,7 +43,17 @@ function api_call(url, method = 'GET', body = '') {
       render_items(response.pending_items, 'edit', 'pending-items', edit_item);
 
       render_items(response.done_items, 'delete', 'done-items', delete_item);
+
+      change_header_values(
+        response.pending_item_count,
+        response.done_item_count,
+      );
     });
+}
+
+function change_header_values(pending, done) {
+  document.querySelector('#done-num').textContent = done;
+  document.querySelector('#pending-num').textContent = pending;
 }
 
 function edit_item(e) {
