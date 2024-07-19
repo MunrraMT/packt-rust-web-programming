@@ -9,20 +9,15 @@
   </head>
 
   <body>
-    <h1>To Do Items</h1>
+    <h1>Done Items</h1>
+    <div id="doneItems"></div>
+    <h2>To Do Items</h2>
+    <div id="pendingItems"></div>
     <input type="text" id="name" placeholder="create to do item">
     <button id="create-button" value="Send">Create</button>
 
     <script>
-      const createButton = document.getElementById("create-button");
-
-      function postAlert() {
-        let titleInput = document.getElementById("name");
-        alert(titleInput.value);
-        titleInput.value = null;
-      }
-
-      createButton.addEventListener("click", postAlert);
+      // {{JAVASCRIPT}}
     </script>
   </body>
 
