@@ -1,5 +1,6 @@
 use actix_web::web::ServiceConfig;
 
+mod app;
 mod auth;
 mod to_do;
 
