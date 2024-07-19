@@ -10,6 +10,21 @@
 
   <body>
     <h1>To Do Items</h1>
+    <input type="text" id="name" placeholder="create to do item">
+    <button id="create-button" value="Send">Create</button>
+
+    <script>
+      const createButton = document.getElementById("create-button");
+
+      function postAlert() {
+        let titleInput = document.getElementById("name");
+        alert(titleInput.value);
+        titleInput.value = null;
+      }
+
+      createButton.addEventListener("click", postAlert);
+    </script>
   </body>
+
 
 </html>
