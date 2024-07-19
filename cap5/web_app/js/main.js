@@ -1,5 +1,6 @@
 function render_items(items, process_type, element_id, process_function) {
   const container = document.createElement('div');
+  const container_parent = document.querySelector(`#${element_id}`);
 
   items.forEach((item) => {
     const title_slug = item.title.replace(/ /g, '-');
@@ -22,11 +23,15 @@ function render_items(items, process_type, element_id, process_function) {
     container.appendChild(div);
   });
 
-  document.querySelector(`#${element_id}`).appendChild(container);
+  container_parent.innerHTML = '';
+  container_parent.appendChild(container);
 }
 
 function api_call(url, method = 'GET', body = '') {
-  const settings = { method, header: { 'user-token': 'token' } };
+  const settings = {
+    method,
+    headers: { 'user-token': 'token', 'Content-Type': 'application/json' },
+  };
 
   if (method === 'POST') {
     settings.body = JSON.stringify(body);
@@ -44,6 +49,8 @@ function api_call(url, method = 'GET', body = '') {
 function edit_item(e) {
   const title = e.target.id.replace(/[-]/g, ' ').replace('edit ', '');
   const body = { title, status: 'DONE' };
+
+  console.log({ body });
 
   api_call('/v1/item/edit', 'POST', body);
 }
