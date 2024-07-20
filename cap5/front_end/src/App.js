@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import './App.css';
+import { ToDoItem } from './components/ToDoItem';
 
 function App() {
   const [pending_items, set_pending_items] = useState([]);
@@ -15,25 +16,43 @@ function App() {
   const get_items = () => {
     fetch('http://192.168.31.197:8080/v1/item/get')
       .then((response) => response.json())
-      .then((response) => {
-        console.log({ response });
+      .then(update_state);
+  };
 
-        if (pending_items !== response.pending_items) {
-          set_pending_items(response.pending_items);
-        }
+  const send_request = (title, status) => {
+    fetch('http://192.168.31.197:8080/v1/item/edit', {
+      method: 'POST',
+      headers: { 'user-token': 'token', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, status: inverse_status(status) }),
+    })
+      .then((response) => response.json())
+      .then(update_state);
+  };
 
-        if (done_items !== response.done_items) {
-          set_done_items(response.done_items);
-        }
+  const inverse_status = (status) => {
+    if (status === 'PENDING') {
+      return 'DONE';
+    }
 
-        if (pending_items_count !== response.done_items) {
-          set_done_items(response.done_items);
-        }
+    return 'PENDING';
+  };
 
-        if (done_items_count !== response.done_items) {
-          set_done_items(response.done_items);
-        }
-      });
+  const update_state = (response) => {
+    if (pending_items !== response.pending_items) {
+      set_pending_items(response.pending_items);
+    }
+
+    if (done_items !== response.done_items) {
+      set_done_items(response.done_items);
+    }
+
+    if (pending_items_count !== response.done_items) {
+      set_pending_items_count(response.done_items);
+    }
+
+    if (done_items_count !== response.done_items) {
+      set_done_items_count(response.done_items);
+    }
   };
 
   return (
@@ -42,19 +61,25 @@ function App() {
 
       <h2>Done Items</h2>
       <ul id="done-items">
-        {done_items.map((item) => (
-          <li key={item.title}>
-            {item.title} {item.status}
-          </li>
+        {done_items.map(({ title, status }) => (
+          <ToDoItem
+            key={title}
+            status={status}
+            title={title}
+            send_request={send_request}
+          />
         ))}
       </ul>
 
       <h2>To Do Items</h2>
       <ul id="pending-items">
-        {pending_items.map((item) => (
-          <li key={item.title}>
-            {item.title} {item.status}
-          </li>
+        {pending_items.map(({ title, status }) => (
+          <ToDoItem
+            key={title}
+            status={status}
+            title={title}
+            send_request={send_request}
+          />
         ))}
       </ul>
 
