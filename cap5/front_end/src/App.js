@@ -12,10 +12,19 @@ function App() {
 
   useEffect(() => {
     get_items();
-  }, []);
+  });
 
   const get_items = () => {
     fetch('http://192.168.31.197:8080/v1/item/get')
+      .then((response) => response.json())
+      .then(update_state);
+  };
+
+  const create_request = (title) => {
+    fetch(`http://192.168.31.197:8080/v1/item/create/${title}`, {
+      method: 'POST',
+      headers: { 'user-token': 'token' },
+    })
       .then((response) => response.json())
       .then(update_state);
   };
@@ -84,7 +93,7 @@ function App() {
         ))}
       </ul>
 
-      <CreateToDoItem />
+      <CreateToDoItem create_request={create_request} />
     </div>
   );
 }
