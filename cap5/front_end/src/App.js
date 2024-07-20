@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import './App.css';
 import { ToDoItem } from './components/ToDoItem';
+import { CreateToDoItem } from './components/CreateToDoItem';
 
 function App() {
   const [pending_items, set_pending_items] = useState([]);
@@ -19,8 +20,8 @@ function App() {
       .then(update_state);
   };
 
-  const send_request = (title, status) => {
-    fetch('http://192.168.31.197:8080/v1/item/edit', {
+  const send_request = (title, status, action) => {
+    fetch(`http://192.168.31.197:8080/v1/item/${action}`, {
       method: 'POST',
       headers: { 'user-token': 'token', 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, status: inverse_status(status) }),
@@ -83,12 +84,7 @@ function App() {
         ))}
       </ul>
 
-      <div className="input-container">
-        <input type="text" id="name" placeholder="create to do item" />
-        <button className="action-button" id="create-button" value="Send">
-          Create
-        </button>
-      </div>
+      <CreateToDoItem />
     </div>
   );
 }
