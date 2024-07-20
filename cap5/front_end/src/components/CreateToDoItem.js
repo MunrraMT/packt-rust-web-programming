@@ -7,12 +7,13 @@ export const CreateToDoItem = ({ create_request }) => {
     set_title(e.target.value);
   };
 
-  const handle_click = () => {
+  const handle_submit = (e) => {
+    e.preventDefault();
     create_request(title);
   };
 
   return (
-    <div className="input-container">
+    <form onSubmit={handle_submit} className="input-container">
       <input
         type="text"
         id="name"
@@ -21,9 +22,9 @@ export const CreateToDoItem = ({ create_request }) => {
         placeholder="create to do item"
       />
 
-      <button onClick={handle_click} className="action-button">
+      <button type="submit" className="action-button">
         Create
       </button>
-    </div>
+    </form>
   );
 };

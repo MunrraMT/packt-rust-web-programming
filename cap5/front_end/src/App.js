@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     get_items();
-  });
+  }, []);
 
   const get_items = () => {
     fetch('http://192.168.31.197:8080/v1/item/get')
@@ -57,43 +57,50 @@ function App() {
     }
 
     if (pending_items_count !== response.done_items) {
-      set_pending_items_count(response.done_items);
+      set_pending_items_count(response.pending_items_count);
     }
 
     if (done_items_count !== response.done_items) {
-      set_done_items_count(response.done_items);
+      set_done_items_count(response.done_items_count);
     }
   };
 
   return (
-    <div className="main-container">
-      <h1>Items</h1>
+    <div className="app">
+      <div className="main-container">
+        <h1>To Do List Rust/React</h1>
 
-      <h2>Done Items</h2>
-      <ul id="done-items">
-        {done_items.map(({ title, status }) => (
-          <ToDoItem
-            key={title}
-            status={status}
-            title={title}
-            send_request={send_request}
-          />
-        ))}
-      </ul>
+        <header className="header">
+          <p>complete tasks: {done_items_count}</p>
+          <p>pending tasks: {pending_items_count}</p>
+        </header>
 
-      <h2>To Do Items</h2>
-      <ul id="pending-items">
-        {pending_items.map(({ title, status }) => (
-          <ToDoItem
-            key={title}
-            status={status}
-            title={title}
-            send_request={send_request}
-          />
-        ))}
-      </ul>
+        <h2>Pending Items</h2>
+        <ul id="pending-items">
+          {pending_items.map(({ title, status }) => (
+            <ToDoItem
+              key={title}
+              status={status}
+              title={title}
+              send_request={send_request}
+            />
+          ))}
+        </ul>
 
-      <CreateToDoItem create_request={create_request} />
+        <h2>Done Items</h2>
+        <ul id="done-items">
+          {done_items.map(({ title, status }) => (
+            <ToDoItem
+              key={title}
+              status={status}
+              title={title}
+              send_request={send_request}
+            />
+          ))}
+        </ul>
+
+        <CreateToDoItem create_request={create_request} />
+      </div>
     </div>
   );
 }

@@ -4,9 +4,10 @@ export const ToDoItem = ({ title, status, send_request }) => {
   const process_status = status === 'PENDING' ? 'edit' : 'delete';
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div className="item-container">
       <p>{title}</p>
       <button
+        className="action-button"
         onClick={() => {
           send_request(title, status, process_status);
         }}
