@@ -1,5 +1,3 @@
-name: web_app
-
 services:
   postgres:
     container_name: 'to-do-postgres'
