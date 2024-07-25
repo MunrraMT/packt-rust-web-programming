@@ -6,4 +6,4 @@ file = "src/schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
 [migrations_directory]
-dir = "/home/ubuntu/rust/packt-rust-web-programming/cap5/web_app/migrations"
+dir = "/home/ubuntu/rust/packt-rust-web-programming/cap6/web_app/migrations"

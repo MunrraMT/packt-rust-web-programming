@@ -42,11 +42,11 @@ impl ToDoItems {
     }
 
     pub fn get_state() -> Self {
-        let mut connection = establish_connection();
+        let connection = &mut establish_connection();
         let mut array_buffer = Vec::new();
         let items: Vec<Item> = to_do::table
             .order(to_do::columns::id.asc())
-            .load(&mut connection)
+            .load(connection)
             .unwrap();
 
         for item in items {
