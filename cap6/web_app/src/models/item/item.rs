@@ -1,0 +1,13 @@
+use chrono::NaiveDateTime;
+use diesel::{associations::Identifiable, deserialize::Queryable};
+
+use crate::schema::to_do;
+
+#[derive(Queryable, Identifiable)]
+#[table_name = "to_do"]
+pub struct Item {
+    pub id: i32,
+    pub title: String,
+    pub status: String,
+    pub date: NaiveDateTime,
+}
