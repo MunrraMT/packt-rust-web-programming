@@ -1,8 +1,11 @@
 use actix_web::{body::BoxBody, http::header::ContentType, HttpResponse, Responder};
+use diesel::{query_dsl::methods::OrderDsl, ExpressionMethods, RunQueryDsl};
 use serde::Serialize;
 
 use crate::{
-    state::read_file,
+    database::establish_connection,
+    models::item::item::Item,
+    schema::to_do,
     to_do::{enums::TaskStatus, structs::base::Base, to_do_factory, ItemTypes},
 };
 
@@ -39,12 +42,16 @@ impl ToDoItems {
     }
 
     pub fn get_state() -> Self {
-        let state = read_file("./state.json");
+        let mut connection = establish_connection();
         let mut array_buffer = Vec::new();
+        let items: Vec<Item> = to_do::table
+            .order(to_do::columns::id.asc())
+            .load(&mut connection)
+            .unwrap();
 
-        for (key, value) in state {
-            let status = TaskStatus::from_string(&value.as_str().unwrap().to_string());
-            let item = to_do_factory(&key, status);
+        for item in items {
+            let status = TaskStatus::from_string(&item.status.as_str().to_string());
+            let item = to_do_factory(&item.title, status);
 
             array_buffer.push(item);
         }
