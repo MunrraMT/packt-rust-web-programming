@@ -4,6 +4,7 @@ use actix_cors::Cors;
 use actix_service::Service;
 use actix_web::{App, HttpServer};
 
+mod config;
 mod database;
 mod json_serialization;
 mod jwt;

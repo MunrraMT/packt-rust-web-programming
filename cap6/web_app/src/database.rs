@@ -1,5 +1,6 @@
 use std::env;
 
+use crate::config::Config;
 use diesel::{pg, Connection};
 use dotenv::dotenv;
 
