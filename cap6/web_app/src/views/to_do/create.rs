@@ -7,11 +7,14 @@ use diesel::{
 use crate::{
     database::establish_connection,
     json_serialization::to_do_items::ToDoItems,
+    jwt::JwToken,
     models::item::{item::Item, new_item::NewItem},
     schema::to_do,
 };
 
-pub async fn create(req: HttpRequest) -> HttpResponse {
+pub async fn create(req: HttpRequest, token: JwToken) -> HttpResponse {
+    println!("here is the message in the token: {}", token.message);
+
     let title = req.match_info().get("title").unwrap().to_string();
     let connection = &mut establish_connection();
     let items: Vec<Item> = to_do::table

@@ -3,7 +3,6 @@ use structs::{done::Done, pending::Pending};
 
 pub mod enums;
 pub mod structs;
-pub mod traits;
 
 pub enum ItemTypes {
     Pending(Pending),
