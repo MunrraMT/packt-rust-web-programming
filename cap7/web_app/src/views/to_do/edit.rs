@@ -9,14 +9,14 @@ use crate::{
     to_do::enums::TaskStatus,
 };
 
-pub async fn edit(to_do_item: web::Json<ToDoItem>, token: JwToken, db: DB) -> HttpResponse {
+pub async fn edit(to_do_item: web::Json<ToDoItem>, token: JwToken, mut db: DB) -> HttpResponse {
     println!("here is the message in the token: {}", token.message);
 
     let results = to_do::table.filter(to_do::columns::title.eq(&to_do_item.title));
 
     let _ = diesel::update(results)
         .set(to_do::columns::status.eq(TaskStatus::DONE.stringify()))
-        .execute(&db.connection);
+        .execute(&mut db.connection);
 
     return HttpResponse::Ok().json(ToDoItems::get_state());
 }

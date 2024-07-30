@@ -1,13 +1,9 @@
-use std::env;
-
 use crate::config::Config;
 use actix_web::{error::ErrorServiceUnavailable, Error, FromRequest, Result};
 use diesel::{
-    pg,
     r2d2::{ConnectionManager, Pool, PooledConnection},
-    Connection, PgConnection,
+    PgConnection,
 };
-use dotenv::dotenv;
 use futures::future::{err, ok, Ready};
 use lazy_static::lazy_static;
 
@@ -49,13 +45,14 @@ impl FromRequest for DB {
     type Future = Ready<Result<DB, Error>>;
 
     fn from_request(
-        req: &actix_web::HttpRequest,
-        payload: &mut actix_web::dev::Payload,
+        _req: &actix_web::HttpRequest,
+        _payload: &mut actix_web::dev::Payload,
     ) -> Self::Future {
         match DBCONNECTION.db_connection.get() {
             Ok(connection) => {
                 return ok(DB { connection });
             }
+
             Err(_) => {
                 return err(ErrorServiceUnavailable(
                     "could not make connection to database",
