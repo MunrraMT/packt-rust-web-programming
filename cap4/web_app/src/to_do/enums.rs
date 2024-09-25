@@ -22,6 +22,14 @@ impl TaskStatus {
      }
 }
 
+impl serde::Serialize for TaskStatus {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer {
+        Ok(serializer.serialize_str(&self.stringify().as_str())?)
+    }
+}
+
 impl fmt::Display for TaskStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
