@@ -1,4 +1,4 @@
-use crate::to_do;
+use crate::{state, to_do};
 
 #[derive(serde::Serialize)]
 pub struct ToDoItems {
@@ -29,5 +29,35 @@ impl ToDoItems {
             pending_item_count: pending_count,
             done_item_count: done_count,
         };
+    }
+
+    pub fn get_state() -> Self {
+        let current_state = state::read_file("./state.json");
+        let mut array_buffer = Vec::new();
+
+        for (key, value) in current_state {
+            let current_status =
+                to_do::enums::TaskStatus::from_string(value.as_str().unwrap().to_string());
+            let item = to_do::to_do_factory(&key, current_status);
+
+            array_buffer.push(item);
+        }
+
+        return Self::new(array_buffer);
+    }
+}
+
+impl actix_web::Responder for ToDoItems {
+    type Body = actix_web::body::BoxBody;
+
+    fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
+        match serde_json::to_string(&self) {
+            Ok(body) => actix_web::HttpResponse::Ok()
+                .content_type(actix_web::http::header::ContentType::json())
+                .body(body),
+            Err(err) => actix_web::HttpResponse::Ok()
+                .content_type(actix_web::http::header::ContentType::json())
+                .body(err.to_string()),
+        }
     }
 }
