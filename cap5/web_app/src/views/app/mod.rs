@@ -1,1 +1,2 @@
-mod items;
+pub mod items;
+pub mod views;
