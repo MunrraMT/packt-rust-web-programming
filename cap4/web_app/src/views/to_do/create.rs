@@ -1,6 +1,9 @@
-use crate::{process, state, to_do};
+use crate::{jwt, process, state, to_do};
 
-pub async fn create(req: actix_web::HttpRequest) -> String {
+pub async fn create(req: actix_web::HttpRequest, token: jwt::JwtToken) -> String {
+    dbg!(&token);
+    println!("here is the message in the token: {}", &token.message);
+
     let current_state = state::read_file("./state.json");
 
     match req.match_info().get("title") {

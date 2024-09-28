@@ -1,8 +1,12 @@
-use crate::{json_serialization, process, state, to_do};
+use crate::{json_serialization, jwt, process, state, to_do};
 
 pub async fn edit(
     to_do_item: actix_web::web::Json<json_serialization::to_do_item::ToDoItem>,
+    token: jwt::JwtToken,
 ) -> actix_web::HttpResponse {
+    dbg!(&token);
+    println!("here is the message in the token: {}", &token.message);
+
     let current_state = state::read_file("./state.json");
 
     let current_item_status = match current_state.get(&to_do_item.title) {
