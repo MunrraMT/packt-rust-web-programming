@@ -38,7 +38,7 @@ impl ToDoItems {
         for (key, value) in current_state {
             let current_status =
                 to_do::enums::TaskStatus::from_string(value.as_str().unwrap().to_string());
-            let item = to_do::to_do_factory(&key, current_status);
+            let item = to_do::to_do_factory(&key, current_status.unwrap());
 
             array_buffer.push(item);
         }
