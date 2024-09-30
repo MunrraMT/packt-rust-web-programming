@@ -2,35 +2,31 @@ function renderItems(items, processType, elementId, processFunction) {
   let itemsMeta = [];
   let placeholder = '<div>';
 
-  if (!!items) {
-    for (let i = 0; i < items.length; i++) {
-      let title = items[i]['title'];
-      let placeholderId = processType + '-' + title.replaceAll(' ', '-');
+  for (let i = 0; i < items.length; i++) {
+    let title = items[i]['title'];
+    let placeholderId = processType + '-' + title.replaceAll(' ', '-');
 
-      placeholder +=
-        '<div class="itemContainer">' +
-        '<p>' +
-        title +
-        '</p>' +
-        '<div class="actionButton" ' +
-        'id="' +
-        placeholderId +
-        '">' +
-        processType +
-        '</div>' +
-        '</div>';
-      itemsMeta.push({ id: placeholderId, title: title });
-    }
-    placeholder += '</div>';
-    document.getElementById(elementId).innerHTML = placeholder;
+    placeholder +=
+      '<div class="itemContainer">' +
+      '<p>' +
+      title +
+      '</p>' +
+      '<div class="actionButton" ' +
+      'id="' +
+      placeholderId +
+      '">' +
+      processType +
+      '</div>' +
+      '</div>';
+    itemsMeta.push({ id: placeholderId, title: title });
+  }
+  placeholder += '</div>';
+  document.getElementById(elementId).innerHTML = placeholder;
 
-    for (let i = 0; i < itemsMeta.length; i++) {
-      document
-        .getElementById(itemsMeta[i]['id'])
-        .addEventListener('click', processFunction);
-    }
-  } else {
-    console.error(items);
+  for (let i = 0; i < itemsMeta.length; i++) {
+    document
+      .getElementById(itemsMeta[i]['id'])
+      .addEventListener('click', processFunction);
   }
 }
 
@@ -51,6 +47,12 @@ function apiCall(url, method) {
         'doneItems',
         deleteItem,
       );
+      document.getElementById('completeNum').innerHTML = JSON.parse(
+        this.responseText,
+      )['done_item_count'];
+      document.getElementById('pendingNum').innerHTML = JSON.parse(
+        this.responseText,
+      )['pending_item_count'];
     }
   });
   xhr.open(method, url);
@@ -97,5 +99,3 @@ function createItem() {
   call.send();
   document.getElementById('name').value = null;
 }
-
-console.log('teste');

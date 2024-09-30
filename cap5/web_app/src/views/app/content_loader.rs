@@ -16,3 +16,19 @@ pub fn read_file_page_not_found() -> String {
 
     return data;
 }
+
+pub fn add_component(component_tag: String, html_data: String) -> String {
+    let css_tag = format!("/*{}_CSS*/", component_tag.to_uppercase());
+    let css_path =
+        String::from("src/templates/components/") + &component_tag.to_lowercase() + ".css";
+    let css_loader = read_file(&css_path);
+
+    let html_tag = format!("<!--{}_HTML-->", component_tag.to_uppercase());
+    let html_path =
+        String::from("src/templates/components/") + &component_tag.to_lowercase() + ".html";
+    let html_loader = read_file(&html_path);
+
+    return html_data
+        .replace(html_tag.as_str(), &html_loader)
+        .replace(css_tag.as_str(), &css_loader);
+}
