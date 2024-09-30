@@ -2,9 +2,10 @@ use super::content_loader;
 
 pub async fn items() -> actix_web::HttpResponse {
     let javascript_data = content_loader::read_file("src/javascript/main.js");
+    let base_css_data = content_loader::read_file("src/css/base.css");
     let html_data = content_loader::read_file("src/templates/main.html")
         .replace("//{{JAVASCRIPT}}", &javascript_data)
-        .replace("/*{{BASE_CSS}}*/", "")
+        .replace("/*{{BASE_CSS}}*/", &base_css_data)
         .replace("/*{{CSS}}*/", "");
 
     return actix_web::HttpResponse::Ok()
