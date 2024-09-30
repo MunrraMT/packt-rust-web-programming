@@ -12,6 +12,19 @@ scale=1.0" />
 
   <body>
     <h1>To Do Items</h1>
+    <input type="text" id="name" placeholder="create to do 
+    item">
+    <button id="create-button" value="Send">Create</button>
+
+    <script>
+      let createButton = document.getElementById("create-button");
+      createButton.addEventListener("click", postAlert);
+      function postAlert() {
+        let titleInput = document.getElementById("name");
+        alert(titleInput.value);
+        titleInput.value = null;
+      }
+    </script>
   </body>
 
 </html>
