@@ -10,6 +10,7 @@ use actix_web;
 mod database;
 mod json_serialization;
 mod jwt;
+mod models;
 mod process;
 mod schema;
 mod state;
