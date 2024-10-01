@@ -7,6 +7,7 @@ use std;
 use actix_service::Service;
 use actix_web;
 
+mod config;
 mod database;
 mod json_serialization;
 mod jwt;
