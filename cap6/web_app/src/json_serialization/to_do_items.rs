@@ -35,10 +35,10 @@ impl ToDoItems {
 
     pub fn get_state() -> Self {
         let mut array_buffer = Vec::new();
-        let mut connection = database::establish_connection();
+        let connection = &mut database::establish_connection();
         let items = schema::to_do::table
             .order(schema::to_do::columns::id.asc())
-            .load::<models::item::item::Item>(&mut connection)
+            .load::<models::item::item::Item>(connection)
             .unwrap();
 
         for item in items {

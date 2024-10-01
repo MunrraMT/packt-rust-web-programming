@@ -1,6 +1,6 @@
 // @generated automatically by Diesel CLI.
 
-table! {
+diesel::table! {
     to_do (id) {
         id -> Int4,
         title -> Varchar,

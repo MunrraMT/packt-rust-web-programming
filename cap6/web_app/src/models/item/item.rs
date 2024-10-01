@@ -1,6 +1,6 @@
 use crate::schema;
 
-#[derive(Queryable, Identifiable)]
+#[derive(Queryable, Identifiable, Debug)]
 #[diesel(table_name = schema::to_do)]
 pub struct Item {
     pub id: i32,
