@@ -1,0 +1,11 @@
+services:
+  postgres:
+    container_name: "to-do-postgresql"
+    image: "postgres:16.4-alpine"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_USER=username"
+      - "POSTGRES_DB=to_do"
+      - "POSTGRES_PASSWORD=password"
