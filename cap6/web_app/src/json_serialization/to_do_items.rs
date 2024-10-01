@@ -1,4 +1,6 @@
-use crate::{state, to_do};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+
+use crate::{database, models, schema, to_do};
 
 #[derive(serde::Serialize)]
 pub struct ToDoItems {
@@ -32,13 +34,16 @@ impl ToDoItems {
     }
 
     pub fn get_state() -> Self {
-        let current_state = state::read_file("./state.json");
         let mut array_buffer = Vec::new();
+        let mut connection = database::establish_connection();
+        let items = schema::to_do::table
+            .order(schema::to_do::columns::id.asc())
+            .load::<models::item::item::Item>(&mut connection)
+            .unwrap();
 
-        for (key, value) in current_state {
-            let current_status =
-                to_do::enums::TaskStatus::from_string(value.as_str().unwrap().to_string());
-            let item = to_do::to_do_factory(&key, current_status.unwrap());
+        for item in items {
+            let status = to_do::enums::TaskStatus::from_string(item.status.as_str().to_string());
+            let item = to_do::to_do_factory(&item.title, status.unwrap());
 
             array_buffer.push(item);
         }
