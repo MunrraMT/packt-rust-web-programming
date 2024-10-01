@@ -11,9 +11,7 @@ mod database;
 mod json_serialization;
 mod jwt;
 mod models;
-mod process;
 mod schema;
-mod state;
 mod to_do;
 mod views;
 
